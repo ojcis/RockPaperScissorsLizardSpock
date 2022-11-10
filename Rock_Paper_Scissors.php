@@ -16,34 +16,37 @@ $lizard->setBeats([$spock,$paper]);
 
 $weapons=[$rock,$paper,$scissors,$lizard,$spock];
 
+while (true) {
 $selectedWeapon=$weapons[array_rand($weapons)];
 $player1=new Player('COMPUTER',$selectedWeapon);
 
-
-
-while (true){
-    foreach ($weapons as $key=>$weapon) {
-        echo "[$key] - {$weapon->getName()}" . PHP_EOL;
+    while (true) {
+        foreach ($weapons as $key => $weapon) {
+            echo "[$key] - {$weapon->getName()}" . PHP_EOL;
+        }
+        $selectedNumber =(int) readline('select number: ');
+        if (in_array($selectedNumber,range(0,4))) {
+            break;
+        }
+        echo PHP_EOL . 'invalid input!' . PHP_EOL;
     }
-    $selectedNumber = readline('select number: ');
-    if ($selectedNumber>=0 && $selectedNumber<=4){
-        break;
-    }
-    echo PHP_EOL.'invalid input!'.PHP_EOL;
-}
-$selectedWeapon=$weapons[$selectedNumber];
-$player2=new Player('OJARS',$selectedWeapon);
+    $selectedWeapon = $weapons[$selectedNumber];
+    $player2 = new Player('OJARS', $selectedWeapon);
 
-echo "{$player1->getPlayer()} with {$player1->getWeapon()->getName()} VS {$player2->getPlayer()} with {$player2->getWeapon()->getName()}".PHP_EOL;
+    echo "{$player1->getPlayer()} with {$player1->getWeapon()->getName()} VS {$player2->getPlayer()} with {$player2->getWeapon()->getName()}" . PHP_EOL;
 
-if ($player1->getWeapon()->getName()==$player2->getWeapon()->getName()){
-    echo 'TIE!'.PHP_EOL;
-    exit;
-}
-for ($i=0;$i<2;$i++){
-    if ($player1->getWeapon()->getName()==$player2->getWeapon()->getBeats()[$i]){
-        echo "{$player2->getPlayer()} WON!".PHP_EOL;
-        exit;
+    if ($player1->getWeapon()->getName() == $player2->getWeapon()->getName()) {
+        echo 'TIE!' . PHP_EOL;
+    } else {
+        for ($i = 0; $i < 2; $i++) {
+            if ($player1->getWeapon()->getName() == $player2->getWeapon()->getBeats()[$i]->getName()) {
+                echo "{$player2->getPlayer()} WON!" . PHP_EOL;
+                goto END;
+            }
+        }
+        echo "{$player1->getPlayer()} WON!" . PHP_EOL;
     }
+    END:
+    $choice = readline("enter 'n' to end or nothing to Play again: ");
+    if ($choice == 'n') exit('BYE!'.PHP_EOL);
 }
-echo "{$player1->getPlayer()} WON!".PHP_EOL;
